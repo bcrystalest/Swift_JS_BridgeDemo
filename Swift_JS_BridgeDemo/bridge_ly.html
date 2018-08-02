@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <title>test bridge</title>
+                    </head>
+    <body>
+        <p>交互SwiftJSBridge</p>
+        <p id="content">输出内容</p>
+    </body>
+    <script>
+        function setupSwiftJSBridge(callback) {
+            if (window.SwiftJSBridge) { return callback(SwiftJSBridge); }
+            if (window.SwiftJSBridgeReadyCallbacks) { return window.SwiftJSBridgeReadyCallbacks.push(callback); }
+            window.SwiftJSBridgeReadyCallbacks = [callback];
+            SwiftJSBridgeInject()
+        }
+    
+    function isWebKit() {
+        return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.SwiftJSBridgeInject;
+    }
+    
+    function SwiftJSBridgeInject() {
+        //    console.log("SwiftJSBridgeInject" )
+        if (isWebKit())  {
+            window.webkit.messageHandlers.SwiftJSBridgeInject.postMessage("SwiftJSBridgeInject")
+        } else {
+            var src = "https://SwiftJSBridgeInject/" + Math.random()
+            var req = new XMLHttpRequest
+            req.open("GET", src)
+            req.send()
+        }
+    }
+    setupSwiftJSBridge(function(bridge) {
+                       function log(message, data) {
+                       //  console.log(message+data)
+                       }
+                       bridge.addJSBridge('sendMessageToJS', function(data, responseCallback) {
+                                          document.getElementById("content").innerHTML=JSON.stringify(data);
+                                          alert(JSON.stringify(data));
+                                          return;
+                                          // log('Native called sendMessageToJS with', data)
+                                          //    var responseData = { message:'Hi, I am JS' }
+                                          //    log('JS responding with', responseData)
+                                          // responseCallback(responseData)
+                                          })
+                       })
+                       function test() {
+                           // alert('test');
+                           SwiftJSBridge.callNativeBridge("getAppVersion",{"data":"v1"},function(data){
+                                                          document.getElementById("content").innerHTML=JSON.stringify(data);
+                                                          // alert(JSON.stringify(data));
+                                                          return;
+                                                          //  console.log("callback")
+                                                          //  console.log(data)
+                                                          })
+                       }
+
+                       function skr(skrString){
+                        alert(skrString)
+                       }
+
+    test();
+        </script>
+</html>
+
+
