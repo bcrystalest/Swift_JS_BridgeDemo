@@ -45,6 +45,13 @@ class ViewController: UIViewController {
         self.JSBridge = JSBridge
         _ = JSBridge.addSwift(bridge: { (data, cb) in
 //            cb?(["appVersion":"1.0"])
+            
+            self.perform(#selector(self.test3), on: .main, with: nil, waitUntilDone: false)
+        }, name: "getAppVersion222")
+        
+        _ = JSBridge.addSwift(bridge: { (data, cb) in
+            //            cb?(["appVersion":"1.0"])
+            
             self.perform(#selector(self.test3), on: .main, with: nil, waitUntilDone: false)
         }, name: "getAppVersion")
         

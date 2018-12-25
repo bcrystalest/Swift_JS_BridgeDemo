@@ -33,6 +33,7 @@
             req.send()
         }
     }
+    
     setupSwiftJSBridge(function(bridge) {
                        function log(message, data) {
                        //  console.log(message+data)
@@ -51,18 +52,31 @@
                            // alert('test');
                            SwiftJSBridge.callNativeBridge("getAppVersion",{"data":"v1"},function(data){
                                                           document.getElementById("content").innerHTML=JSON.stringify(data);
-                                                          // alert(JSON.stringify(data));
+                                                          console.log("callback")
+                                                          console.log(data)
+<!--                                                          alert(JSON.stringify(data));-->
                                                           return;
-                                                          //  console.log("callback")
-                                                          //  console.log(data)
+                                                          
                                                           })
                        }
+    
+    function test2() {
+        // alert('test');
+        SwiftJSBridge.callNativeBridge("getAppVersion222",{"data":"v1"},function(data){
+                                       document.getElementById("content").innerHTML=JSON.stringify(data);
+                                       // alert(JSON.stringify(data));
+                                       return;
+                                       //  console.log("callback")
+                                       //  console.log(data)
+                                       })
+    }
 
                        function skr(skrString){
                         alert(skrString)
                        }
 
     test();
+<!--    test2();-->
         </script>
 </html>
 
